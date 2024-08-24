@@ -1,4 +1,5 @@
 [deps]
+CBLS = "a3809bfe-37bb-4d48-a667-bac4c6be8d90"
 HiGHS = "87dc4568-4c63-4d18-b0c0-bb2238e4078b"
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 MiniZinc = "a7f392d2-6c35-496e-b8cc-0974fbfcbf91"
