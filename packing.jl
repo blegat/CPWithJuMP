@@ -39,21 +39,24 @@ solution_summary(model)
 value.(x)
 value.(y)
 
-using Luxor
+using Colors, Plots
 
-colors = ["blue", "red", "brown", "orange", "green", "purple"]
-
-scaling = 20
-
-@draw begin
-    Drawing(scaling * upper_bound, scaling * upper_bound)
+function square_plot(x, y, s)
+    n = length(x)
+    colors = distinguishable_colors(n)
+    p = plot(width = upper_bound, height = upper_bound, ratio = :equal, ticks = false, showaxis = false)
     for i in 1:n
-        sethue(colors[i])
-        rect(
-            Point(scaling * value(x[i]), scaling * value(y[i])),
-            scaling * sizes[i],
-            scaling * sizes[i],
-            action = :fill,
+        a, b, l = x[i], y[i], s[i]
+        plot!(
+            [a, a, a + l, a + l],
+            [b, b + l, b + l, b],
+            color = colors[i],
+            legend = false,
+            seriestype = :shape,
+            linewidth = 0,
         )
     end
+    return p
 end
+
+square_plot(value.(x), value.(y), sizes)
