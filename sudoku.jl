@@ -58,7 +58,6 @@ csp_sol = round.(Int, value.(x))
 
 print_active_bridges(model)
 
-
 # Let's solve it with a MILP solver:
 
 import HiGHS
@@ -76,14 +75,3 @@ print_active_bridges(model)
 # Reformulation selected as a shortest path in a large graph of possible reformulations:
 
 print_bridge_graph(model)
-
-# TODO remove_bridge
-# TODO similar eta in ccl
-
-import CBLS
-set_optimizer(model, CBLS.Optimizer)
-optimize!(model)
-
-solution_summary(model)
-
-print_active_bridges(model)
