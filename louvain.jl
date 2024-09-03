@@ -4,9 +4,6 @@ w = Int[]
 
 edges = [(1, 2, 1); (1, 3, 4); (1, 5, 7); (2, 4, 10); (3, 5, 12)] # edges and weights
 
-op_isequal = NonlinearOperator(==, :(==))
-op_ifelse = NonlinearOperator(ifelse, :ifelse)
-
 function louvain(edges, T)
     n_nodes = maximum(max(e[1], e[2]) for e in edges)
     m = sum(e[3] for e in edges)
@@ -25,7 +22,7 @@ function louvain(edges, T)
         Max,
         sum(
             op_ifelse(
-                op_isequal(x[u], x[v]), # x[u] == x[v]
+                op_equal_to(x[u], x[v]), # x[u] == x[v]
                 2 * m * w - k[u] * k[v],
                 0,
             )
