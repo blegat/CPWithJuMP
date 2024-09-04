@@ -60,6 +60,19 @@ MOI.set(model, MOI.SolutionLimit(), 2)
 optimize!(model)
 solution_summary(model)
 
+# Inspect MiniZinc model
+
+set_attribute(model, "model_filename", joinpath(@__DIR__, "mysudoku.mzn"))
+optimize!(model)
+
+# Specify different solver : provide path to `msc` file
+
+path = joinpath(MiniZinc.Chuffed_jll.artifact_dir, "share", "minizinc", "solvers", "chuffed.msc")
+
+set_optimizer(model, () -> MiniZinc.Optimizer{Float64}(path))
+optimize!(model)
+solution_summary(model)
+
 # No reformulation needed:
 
 print_active_bridges(model)
