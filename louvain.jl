@@ -1,4 +1,5 @@
 # Inspired from `MiniZinc.jl/test/examples/louvain.jl`
+using JuMP
 
 w = Int[]
 
