@@ -81,39 +81,3 @@ print_active_bridges(model)
 # Reformulation selected as a shortest path in a large graph of possible reformulations:
 
 print_bridge_graph(model)
-
-# ## Second version
-
-model = Model()
-
-@variable(model, 1 <= x[1:9, 1:9] <= 9, Int);
-
-# We define a new operator of the expression graph that matches
-# the head `:alldifferent` that is recognized by `MiniZinc`
-# The function `error` should not be called.
-
-op_alldifferent = NonlinearOperator(error, :alldifferent)
-
-@constraint(model, [i = 1:9], op_alldifferent(x[i, :]...) := true)
-
-@constraint(model, [j = 1:9], op_alldifferent(x[:, j]...) := true)
-
-@constraint(model, [i in [0, 3, 6], j in [0, 3, 6]], op_alldifferent(x[i.+(1:3), j.+(1:3)]...) := true)
-
-# Finally, as before we set the initial solution and optimize:
-
-for i in 1:9, j in 1:9
-    if init_sol[i, j] != 0
-        fix(x[i, j], init_sol[i, j]; force = true)
-    end
-end
-
-set_optimizer(model, () -> MiniZinc.Optimizer{Float64}("chuffed"))
-
-MOI.set(model, MOI.SolutionLimit(), 2)
-
-optimize!(model)
-
-solution_summary(model)
-
-csp_sol = round.(Int, value.(x))
